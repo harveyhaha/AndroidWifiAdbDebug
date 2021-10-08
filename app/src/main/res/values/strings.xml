@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">AndroidWifiAdbDebug</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="wifi_adb_setting_start">启动</string>
+    <string name="wifi_adb_setting_stop">停止</string>
+    <string name="wifi_default_port_hint">默认端口号5555</string>
+    <string name="wifi_tips_success">设置完成，请在PC端执行\n adb connect %s:%s 访问</string>
+    <string name="error_wifi_empty">wifi地址获取为空</string>
+
+</resources>

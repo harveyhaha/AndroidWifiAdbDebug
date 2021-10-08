@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainFragment">
+
+    <TextView
+        android:id="@+id/wifi_default_port_hint_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/wifi_default_port_hint"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/port_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="5555"
+        android:imeOptions="actionDone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wifi_default_port_hint_tv" />
+
+    <Button
+        android:id="@+id/start_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/wifi_adb_setting_start"
+        app:layout_constraintEnd_toEndOf="@+id/port_et"
+        app:layout_constraintStart_toStartOf="@+id/port_et"
+        app:layout_constraintTop_toBottomOf="@+id/port_et">
+
+        <requestFocus />
+    </Button>
+
+    <TextView
+        android:id="@+id/tips_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/port_et"
+        app:layout_constraintTop_toBottomOf="@+id/start_btn"
+        tools:text="@string/wifi_tips_success" />
+</androidx.constraintlayout.widget.ConstraintLayout>
