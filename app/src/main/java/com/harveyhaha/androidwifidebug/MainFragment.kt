@@ -3,6 +3,8 @@ package com.harveyhaha.androidwifidebug
 import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +19,7 @@ class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private var status = false
+    private var TAG = MainFragment::class.java.simpleName
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,6 +43,25 @@ class MainFragment : Fragment() {
                 status = false;
             }
         }
+        binding.portEt.setOnKeyListener { v, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+                    Log.i(TAG, "onKey ACTION_DOWN 确定键")
+                    SoftInputUtil.showKeyboard(v)
+                    return@setOnKeyListener true
+                }
+                if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                    binding.startBtn.requestFocus()
+                    return@setOnKeyListener true
+                }
+            } else if (event.action == KeyEvent.ACTION_UP) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+                    Log.i(TAG, "onKey ACTION_UP 确定键")
+                    return@setOnKeyListener true
+                }
+            }
+            return@setOnKeyListener false
+        }
     }
 
     override fun onDestroyView() {
@@ -49,7 +71,6 @@ class MainFragment : Fragment() {
 
     //停止
     private fun stopAdbWifiDebug() {
-        // TODO: Implement this method
         if (status) {
             command("stop adbd")
             binding.tipsTv.text = ""
@@ -58,19 +79,17 @@ class MainFragment : Fragment() {
 
     //启动
     private fun startAdbWifiDebug() {
-        // TODO: Implement this method
         if (!status) {
             val ip = getIP()
             if (ip == "") {
                 binding.tipsTv.text = getString(R.string.error_wifi_empty)
                 return
+            } else if (binding.portEt.text.isEmpty()) {
+                binding.tipsTv.text = getString(R.string.error_port_empty)
+                return
             }
-            //执行开启命令
-//            command("setprop service.adb.tcp.port 5555;start adb")
-            command("setprop service.adb.tcp.port 5555;stop adbd;start adbd")
+            command("setprop service.adb.tcp.port " + binding.portEt.text.toString() + ";stop adbd;start adbd")
             binding.tipsTv.text = getString(R.string.wifi_tips_success, ip, binding.portEt.text.toString())
-
-//            ShowToast(resources.getString(R.string.debug_status_open) + " " + ip)
         }
     }
 
@@ -94,28 +113,6 @@ class MainFragment : Fragment() {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-    }
-
-    /**
-     * 应用程序运行命令获取 Root权限，设备必须已破解(获得ROOT权限)
-     *
-     * @return 应用程序是/否获取Root权限
-     */
-    private fun isRoot(): Boolean {
-        var process: Process? = null
-        try {
-            process = Runtime.getRuntime().exec("su")
-            process.outputStream.write("exit\n".toByteArray())
-            process.outputStream.flush()
-            val i = process.waitFor()
-            if (0 == i) {
-                process = Runtime.getRuntime().exec("su")
-                return true
-            }
-        } catch (e: Exception) {
-            return false
-        }
-        return false
     }
 
     //获取ip

@@ -9,5 +9,6 @@
     <string name="wifi_default_port_hint">默认端口号5555</string>
     <string name="wifi_tips_success">设置完成，请在PC端执行\n adb connect %s:%s 访问</string>
     <string name="error_wifi_empty">wifi地址获取为空</string>
+    <string name="error_port_empty">端口为空</string>
 
 </resources>
